@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Trailers</string>
+    <string name="discover">Discover</string>
+    <string name="trending">Trending</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+</resources>
