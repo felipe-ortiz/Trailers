@@ -1,4 +1,4 @@
-package com.felipeortiz.trailers.ui.Trending
+package com.felipeortiz.trailers.ui.videoDetail
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -9,24 +9,24 @@ import android.view.ViewGroup
 
 import com.felipeortiz.trailers.R
 
-class TrendingFragment : Fragment() {
+class VideoDetailFragment : Fragment() {
 
     companion object {
-        fun newInstance() = TrendingFragment()
+        fun newInstance() = VideoDetailFragment()
     }
 
-    private lateinit var viewModel: TrendingViewModel
+    private lateinit var viewModel: VideoDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.trending_fragment, container, false)
+        return inflater.inflate(R.layout.video_detail_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(TrendingViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(VideoDetailViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

@@ -1,12 +1,12 @@
 package com.felipeortiz.trailers.data.network.response
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.felipeortiz.trailers.data.network.MovieDbService
 import com.felipeortiz.trailers.internal.NoConnectivityException
+import timber.log.Timber
 
-class MoviesDataSourceImpl(private val movieDbService: MovieDbService) : MoviesDataSource {
+class MovieCache(private val movieDbService: MovieDbService) : MoviesDataSource {
 
     private val _downloadedTrending = MutableLiveData<TrendingResponse>()
 
@@ -18,7 +18,7 @@ class MoviesDataSourceImpl(private val movieDbService: MovieDbService) : MoviesD
             val fetchTrendingResponse = movieDbService.getTrending(mediaType, timeWindow).await()
             _downloadedTrending.postValue(fetchTrendingResponse)
         } catch (e : NoConnectivityException) {
-            Log.e("Connectivity", "No internet connection", e)
+            Timber.d("No Internet Connection")
         }
     }
 }

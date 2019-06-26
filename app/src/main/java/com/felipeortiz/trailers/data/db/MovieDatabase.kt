@@ -4,27 +4,34 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.felipeortiz.trailers.data.db.entity.TrendingResult
+import com.felipeortiz.trailers.data.db.entity.TrendingMovie
 
 @Database(
-    entities = [TrendingResult::class],
-    version = 1
+    entities = [TrendingMovie::class],
+    version = 3,
+    exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
-    abstract fun trendingDao() : TrendingDao
+    abstract val trendingDao: TrendingDao
+}
 
-    companion object {
-        @Volatile private var instance : MovieDatabase? = null
-        private val LOCK = Any()
+@Volatile private var INSTANCE : MovieDatabase? = null
+fun getDatabase(context: Context): MovieDatabase {
+    val tempInstance = INSTANCE
+    if (tempInstance != null) {
+        return tempInstance
+    }
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: buildDatabase(context).also { instance = it }
-        }
+    synchronized(MovieDatabase::class.java) {
+        val instance = Room.databaseBuilder(
+            context.applicationContext,
+            MovieDatabase::class.java,
+            "movie_database")
+            .fallbackToDestructiveMigration()
+            .build()
 
-        private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context.applicationContext,
-                MovieDatabase::class.java, "movie.db")
-                .build()
+        INSTANCE = instance
 
+        return instance
     }
 }

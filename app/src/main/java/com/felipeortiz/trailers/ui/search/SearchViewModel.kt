@@ -1,4 +1,4 @@
-package com.felipeortiz.trailers.ui.Search
+package com.felipeortiz.trailers.ui.search
 
 import androidx.lifecycle.ViewModel;
 

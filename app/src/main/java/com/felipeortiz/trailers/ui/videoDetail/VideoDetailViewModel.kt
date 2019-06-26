@@ -1,4 +1,4 @@
-package com.felipeortiz.trailers.ui.VideoDetail
+package com.felipeortiz.trailers.ui.videoDetail
 
 import androidx.lifecycle.ViewModel;
 

@@ -1,4 +1,4 @@
-package com.felipeortiz.trailers.ui.Discover
+package com.felipeortiz.trailers.ui.discover
 
 import androidx.lifecycle.ViewModel;
 

@@ -1,4 +1,4 @@
-package com.felipeortiz.trailers.ui.Settings
+package com.felipeortiz.trailers.ui.settings
 
 import androidx.fragment.app.Fragment
 

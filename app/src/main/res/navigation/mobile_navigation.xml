@@ -4,12 +4,12 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/mobile_navigation"
             app:startDestination="@id/trendingFragment">
 
-    <fragment android:id="@+id/trendingFragment" android:name="com.felipeortiz.trailers.ui.Trending.TrendingFragment"
+    <fragment android:id="@+id/trendingFragment" android:name="com.felipeortiz.trailers.ui.trending.TrendingFragment"
               android:label="trending_fragment" tools:layout="@layout/trending_fragment"/>
-    <fragment android:id="@+id/discoverFragment" android:name="com.felipeortiz.trailers.ui.Discover.DiscoverFragment"
+    <fragment android:id="@+id/discoverFragment" android:name="com.felipeortiz.trailers.ui.discover.DiscoverFragment"
               android:label="discover_fragment" tools:layout="@layout/discover_fragment"/>
-    <fragment android:id="@+id/searchFragment" android:name="com.felipeortiz.trailers.ui.Search.SearchFragment"
+    <fragment android:id="@+id/searchFragment" android:name="com.felipeortiz.trailers.ui.search.SearchFragment"
               android:label="search_fragment" tools:layout="@layout/search_fragment"/>
-    <fragment android:id="@+id/settingsFragment" android:name="com.felipeortiz.trailers.ui.Settings.SettingsFragment"
+    <fragment android:id="@+id/settingsFragment" android:name="com.felipeortiz.trailers.ui.settings.SettingsFragment"
               android:label="SettingsFragment"/>
 </navigation>
