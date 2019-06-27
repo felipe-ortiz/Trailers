@@ -4,4 +4,7 @@
     <string name="trending">Trending</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
+    <string name="movie_title">Title</string>
+    <string name="year_realeased">(Year)</string>
+    <string name="rating">Rating</string>
 </resources>
