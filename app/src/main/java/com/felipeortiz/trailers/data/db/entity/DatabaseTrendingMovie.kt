@@ -1,20 +1,15 @@
-package com.felipeortiz.trailers.data.network.response
+package com.felipeortiz.trailers.data.db.entity
 
-import com.felipeortiz.trailers.data.db.entity.DatabaseTrendingMovie
-import com.google.gson.annotations.SerializedName
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.felipeortiz.trailers.data.network.response.TrendingMovie
 
-data class TrendingResponse(
-    val page: Int,
-    @SerializedName("results")
-    val trendingMovies: List<TrendingMovie>,
-    val total_pages: Int,
-    val total_results: Int
-)
-
-data class TrendingMovie(
+@Entity(tableName = "trending_movies")
+data class DatabaseTrendingMovie(
     val adult: Boolean?,
     val backdrop_path: String?,
     val first_air_date: String?,
+    @PrimaryKey(autoGenerate = false)
     val id: Int,
     val name: String?,
     val original_language: String?,
@@ -30,9 +25,9 @@ data class TrendingMovie(
     val vote_count: Int?
 )
 
-fun TrendingResponse.toDatabaseTrendingMoviesArray() : Array<DatabaseTrendingMovie> {
-    return trendingMovies.map {
-        DatabaseTrendingMovie(
+fun List<DatabaseTrendingMovie>.toTrendingMovies() : List<TrendingMovie> {
+    return map {
+        TrendingMovie(
             adult = it.adult,
             backdrop_path = it.backdrop_path,
             first_air_date = it.first_air_date,
@@ -49,7 +44,6 @@ fun TrendingResponse.toDatabaseTrendingMoviesArray() : Array<DatabaseTrendingMov
             video = it.video,
             vote_average = it.vote_average,
             vote_count = it.vote_count
-            )
-    }.toTypedArray()
+        )
+    }
 }
-

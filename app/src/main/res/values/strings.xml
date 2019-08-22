@@ -7,4 +7,6 @@
     <string name="movie_title">Title</string>
     <string name="year_realeased">(Year)</string>
     <string name="rating">Rating</string>
+    <string name="runtime">Runtime %d</string>
+    <string name="overview">Overview</string>
 </resources>

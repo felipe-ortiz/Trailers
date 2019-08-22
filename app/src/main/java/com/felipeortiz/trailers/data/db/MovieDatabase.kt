@@ -4,15 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.felipeortiz.trailers.data.db.entity.TrendingMovie
+import com.felipeortiz.trailers.data.db.entity.DatabaseMovie
+import com.felipeortiz.trailers.data.db.entity.DatabaseTrendingMovie
 
 @Database(
-    entities = [TrendingMovie::class],
-    version = 3,
+    entities = [DatabaseMovie::class, DatabaseTrendingMovie::class],
+    version = 1,
     exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
-    abstract val trendingDao: TrendingDao
+    abstract val movieDao: MovieDao
+    abstract val trendingMoviesDao: TrendingMoviesDao
 }
 
 @Volatile private var INSTANCE : MovieDatabase? = null

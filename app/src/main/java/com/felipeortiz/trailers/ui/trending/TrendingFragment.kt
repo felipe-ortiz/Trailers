@@ -9,18 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.felipeortiz.trailers.R
-import com.felipeortiz.trailers.data.db.entity.TrendingMovie
+import com.felipeortiz.trailers.data.network.response.TrendingMovie
 import kotlinx.android.synthetic.main.trending_fragment.view.*
 import kotlinx.android.synthetic.main.trending_list_view.view.*
 
 private const val POSTER_PATH_BASE_URL = "https://image.tmdb.org/t/p/w92"
 
-class TrendingFragment : Fragment() {
+class TrendingFragment : Fragment(), OnMovieClickListener {
 
     companion object {
         fun newInstance() = TrendingFragment()
@@ -36,9 +38,7 @@ class TrendingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.trending_fragment, container, false)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TrendingViewModel::class.java)
-
-        adapter = TrendingMovieAdapter(activity as Context)
+        adapter = TrendingMovieAdapter(activity as Context, this)
         recyclerView = view.recycler_view_trending
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = this.adapter
@@ -55,11 +55,19 @@ class TrendingFragment : Fragment() {
         super.onCreate(savedInstanceState)
         val application = requireNotNull(this.activity).application
         viewModelFactory = TrendingViewModelFactory(application)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TrendingViewModel::class.java)
+    }
+
+    override fun onItemClick(movie: TrendingMovie) {
+        Toast.makeText(activity, "Id: ${movie.id}, Title: ${movie.title}", Toast.LENGTH_SHORT).show()
+        val action = TrendingFragmentDirections.actionTrendingFragmentToVideoDetailFragment(movie.id)
+        this.findNavController().navigate(action)
     }
 }
 
-// RecyclerView Adapter
-class TrendingMovieAdapter(private val context: Context) : RecyclerView.Adapter<TrendingMovieViewHolder>() {
+class TrendingMovieAdapter(private val context: Context, private val onMovieClickHandler: OnMovieClickListener) :
+    RecyclerView.Adapter<TrendingMovieAdapter.TrendingMovieViewHolder>()
+{
     private var trendingMovies = emptyList<TrendingMovie>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingMovieViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.trending_list_view, parent, false)
@@ -73,9 +81,12 @@ class TrendingMovieAdapter(private val context: Context) : RecyclerView.Adapter<
         Glide.with(context)
             .load(imageUrl)
             .into(holder.posterImageView)
-        holder.titleTextView.text = trendingMovies[position].title
-        trendingMovies[position].release_date?.let {
-            holder.yearTextView.text = "(${it.substring(0, 4)})"
+        holder.titleTextView.text = when {
+            trendingMovies[position].title != null -> trendingMovies[position].title
+            trendingMovies[position].name != null -> trendingMovies[position].name
+            trendingMovies[position].original_name != null -> trendingMovies[position].original_name
+            trendingMovies[position].original_title != null -> trendingMovies[position].original_title
+            else -> "Unavailable"
         }
         holder.rating.text = trendingMovies[position].vote_average.toString()
     }
@@ -84,13 +95,20 @@ class TrendingMovieAdapter(private val context: Context) : RecyclerView.Adapter<
         this.trendingMovies = trendingMovies
         notifyDataSetChanged()
     }
+    inner class TrendingMovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        val titleTextView: TextView = itemView.title_trending_text_view
+        val posterImageView: ImageView = itemView.poster_trending
+        val rating: TextView = itemView.rating_trending_text_view
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val selectedMovie = trendingMovies[adapterPosition]
+            onMovieClickHandler.onItemClick(selectedMovie)
+        }
+    }
 }
 
-// RecyclerView Holder
-class TrendingMovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-    val titleTextView: TextView = itemView.title_trending_text_view
-    val yearTextView: TextView = itemView.year_trending_text_view
-    val posterImageView: ImageView = itemView.poster_trending
-    val rating: TextView = itemView.rating_trending_text_view
-}
+

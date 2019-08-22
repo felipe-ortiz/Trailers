@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/primaryColor</item>
+        <!-- Remove Action Bar -->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+    </style>
+
+    <style name="ToolbarTheme.Light" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="android:colorPrimary">@android:color/background_light</item>
+    </style>
+
+    <style name="ToolbarTheme.Dark" parent="Widget.MaterialComponents.Toolbar.Surface"/>
+
+    <style name="ToolbarTheme.DayNight" parent="ToolbarTheme.Light"/>
+
+    <style name="ToolbarTheme.Alternate" parent="ThemeOverlay.MaterialComponents.ActionBar"/>
+</resources>
