@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.felipeortiz.trailers.R
 import com.felipeortiz.trailers.data.network.response.TrendingMovie
+import com.felipeortiz.trailers.ui.OnItemClickHandler
 import kotlinx.android.synthetic.main.trending_fragment.view.*
 import kotlinx.android.synthetic.main.trending_list_view.view.*
 
@@ -38,6 +39,7 @@ class TrendingFragment : Fragment(), OnMovieClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.trending_fragment, container, false)
+
         adapter = TrendingMovieAdapter(activity as Context, this)
         recyclerView = view.recycler_view_trending
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -59,7 +61,6 @@ class TrendingFragment : Fragment(), OnMovieClickListener {
     }
 
     override fun onItemClick(movie: TrendingMovie) {
-        Toast.makeText(activity, "Id: ${movie.id}, Title: ${movie.title}", Toast.LENGTH_SHORT).show()
         val action = TrendingFragmentDirections.actionTrendingFragmentToVideoDetailFragment(movie.id)
         this.findNavController().navigate(action)
     }

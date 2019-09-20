@@ -9,4 +9,15 @@
     <string name="rating">Rating</string>
     <string name="runtime">Runtime %d</string>
     <string name="overview">Overview</string>
+    <string name="tagline">Tagline</string>
+    <string name="more_information">More Information</string>
+    <string name="minutes">%d mins</string>
+    <string name="audio_language">Audio Language</string>
+    <string name="language">Language</string>
+    <string name="budget">Budget</string>
+    <string name="rating_value">%f</string>
+    <string name="poster_image">Poster</string>
+    <string name="video_title">Video Title</string>
+    <string name="trailers">Trailers</string>
+    <string name="budget_formatted">$%s</string>
 </resources>

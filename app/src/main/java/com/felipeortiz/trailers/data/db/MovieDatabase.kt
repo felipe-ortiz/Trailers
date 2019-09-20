@@ -1,17 +1,16 @@
 package com.felipeortiz.trailers.data.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.felipeortiz.trailers.data.db.entity.DatabaseMovie
+import androidx.room.*
 import com.felipeortiz.trailers.data.db.entity.DatabaseTrendingMovie
+import com.felipeortiz.trailers.models.Movie
 
 @Database(
-    entities = [DatabaseMovie::class, DatabaseTrendingMovie::class],
+    entities = [Movie::class, DatabaseTrendingMovie::class],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(com.felipeortiz.trailers.internal.TypeConverters::class)
 abstract class MovieDatabase : RoomDatabase() {
     abstract val movieDao: MovieDao
     abstract val trendingMoviesDao: TrendingMoviesDao

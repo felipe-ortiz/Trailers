@@ -21,5 +21,18 @@
               android:name="com.felipeortiz.trailers.ui.videoDetail.VideoDetailFragment"
               tools:layout="@layout/fragment_video_detail">
         <argument android:name="movieId" app:argType="integer"/>
+        <action
+                android:id="@+id/action_videoDetailFragment_to_playVideoFragment"
+                app:destination="@id/playVideoFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/playVideoFragment"
+            android:name="com.felipeortiz.trailers.ui.videoDetail.PlayVideoFragment"
+            android:label="fragment_play_video"
+            tools:layout="@layout/fragment_play_video" >
+        <argument
+                android:name="videoKey"
+                app:argType="string"
+                android:defaultValue='""' />
     </fragment>
 </navigation>

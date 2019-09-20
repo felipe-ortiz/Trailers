@@ -9,11 +9,11 @@ apply plugin: "kotlin-kapt"
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.felipeortiz.trailers"
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -81,4 +81,7 @@ dependencies {
 
     // Timber, better logger
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Youtube API Library
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.4'
 }
