@@ -9,15 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.felipeortiz.trailers.MovieApplication
 import com.felipeortiz.trailers.R
 import com.felipeortiz.trailers.data.network.response.TrendingMovie
-import com.felipeortiz.trailers.ui.OnItemClickHandler
+import com.felipeortiz.trailers.di.Injector
 import kotlinx.android.synthetic.main.trending_fragment.view.*
 import kotlinx.android.synthetic.main.trending_list_view.view.*
 
@@ -40,7 +40,7 @@ class TrendingFragment : Fragment(), OnMovieClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.trending_fragment, container, false)
 
-        adapter = TrendingMovieAdapter(activity as Context, this)
+        adapter = TrendingMovieAdapter(requireContext(), this)
         recyclerView = view.recycler_view_trending
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = this.adapter
@@ -55,8 +55,7 @@ class TrendingFragment : Fragment(), OnMovieClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val application = requireNotNull(this.activity).application
-        viewModelFactory = TrendingViewModelFactory(application)
+        viewModelFactory = TrendingViewModelFactory(Injector.get().movieRepository())
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TrendingViewModel::class.java)
     }
 

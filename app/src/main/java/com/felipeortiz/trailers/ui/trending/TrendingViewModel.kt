@@ -1,15 +1,13 @@
 package com.felipeortiz.trailers.ui.trending
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.felipeortiz.trailers.data.db.getDatabase
+import androidx.lifecycle.ViewModel
 import com.felipeortiz.trailers.data.network.response.TrendingMovie
 import com.felipeortiz.trailers.data.repository.MovieRepository
-import com.felipeortiz.trailers.models.Movie
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class TrendingViewModel(application: Application) : AndroidViewModel(application) {
+class TrendingViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
 
     /**
      * This is the job for all coroutines started by this ViewModel.
@@ -25,8 +23,6 @@ class TrendingViewModel(application: Application) : AndroidViewModel(application
      */
     private val scope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val database = getDatabase(application)
-    private val repository = MovieRepository(database)
 
     val trendingMovies: LiveData<List<TrendingMovie>> = repository.trendingMovies
 

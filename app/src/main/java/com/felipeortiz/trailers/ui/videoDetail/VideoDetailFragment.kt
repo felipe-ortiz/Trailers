@@ -20,7 +20,9 @@ import timber.log.Timber
 import android.content.Context
 import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
+import com.felipeortiz.trailers.MovieApplication
 import com.felipeortiz.trailers.R
+import com.felipeortiz.trailers.di.Injector
 import com.felipeortiz.trailers.ui.OnItemClickHandler
 import com.felipeortiz.trailers.ui.OnItemLongClickHandler
 import kotlinx.android.synthetic.main.fragment_video_detail.view.*
@@ -39,7 +41,7 @@ class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandl
 
     private lateinit var viewModelFactory: VideoDetailVideoModelFactory
     private lateinit var viewModel: VideoDetailViewModel
-    private lateinit var application: Application
+    private lateinit var application: MovieApplication
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TrailersAdapter
     private val trailers = mutableListOf<Result>()
@@ -88,10 +90,10 @@ class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        application = requireNotNull(this.activity).application
+        application = requireNotNull(this.activity).application as MovieApplication
         arguments?.getInt("movieId")?.let {
             Timber.d("Movie id = $it")
-            viewModelFactory = VideoDetailVideoModelFactory(application, it)
+            viewModelFactory = VideoDetailVideoModelFactory(it, Injector.get().movieRepository())
         }
     }
 

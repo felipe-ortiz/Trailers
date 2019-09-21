@@ -43,6 +43,10 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
+    // Dependency Injection
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -55,26 +59,17 @@ dependencies {
     // Gson
     implementation "com.google.code.gson:gson:$gson_version"
 
-    // Moshi instead of Gson
-    implementation "com.squareup.moshi:moshi:$moshi_version"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
-
-    // Kodein
-    implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
-    implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
 
     // Material Design
-    implementation 'com.google.android.material:material:1.1.0-alpha09'
+    implementation 'com.google.android.material:material:1.1.0-alpha10'
 
     // Better time and date support
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
