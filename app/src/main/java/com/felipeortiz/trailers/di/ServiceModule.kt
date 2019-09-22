@@ -32,7 +32,6 @@ class ServiceModule {
         return@Interceptor chain.proceed(request)
     }
 
-
     private val okHttpClient: OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(requestInterceptor)
         .build()

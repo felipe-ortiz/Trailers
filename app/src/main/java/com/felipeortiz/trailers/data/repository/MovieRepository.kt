@@ -18,7 +18,7 @@ import javax.inject.Singleton
 class MovieRepository @Inject constructor(private val database: MovieDatabase,
                                           private val movieDbService: MovieDbService) {
 
-    private var lastFetchTime: ZonedDateTime = ZonedDateTime.now()
+    private var lastFetchTime: ZonedDateTime = ZonedDateTime.now().minusDays(1)
     val trendingMovies: LiveData<List<TrendingMovie>> = Transformations.map(database.trendingMoviesDao().getTrendingMovies()) {
         it.toTrendingMovies()
     }
@@ -26,11 +26,10 @@ class MovieRepository @Inject constructor(private val database: MovieDatabase,
     fun getMovie(movieId: Int) : LiveData<Movie> = database.movieDao().getMovie(movieId)
 
     suspend fun getTrendingMovies() {
-//        if (isTrendingMoviesFetchNeeded(lastFetchTime)) {
-//            lastFetchTime = ZonedDateTime.now()
-//            refreshTrendingMovies()
-//        }
-        refreshTrendingMovies()
+        if (isTrendingMoviesFetchNeeded(lastFetchTime)) {
+            lastFetchTime = ZonedDateTime.now()
+            refreshTrendingMovies()
+        }
     }
 
     private fun isTrendingMoviesFetchNeeded(lastFetchTime: ZonedDateTime) : Boolean {
