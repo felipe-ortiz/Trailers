@@ -8,11 +8,16 @@
         android:orientation="vertical"
         tools:context=".ui.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/ToolbarTheme.Alternate"/>
+            android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:theme="@style/Widget.Trailers.Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <fragment
             android:id="@+id/nav_host_fragment"

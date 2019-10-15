@@ -8,7 +8,6 @@ data class Movie(
     var adult: Boolean,
     var backdrop_path: String,
     var budget: Int,
-    var homepage: String,
     @PrimaryKey(autoGenerate = false)
     var id: Int,
     var images: Images,

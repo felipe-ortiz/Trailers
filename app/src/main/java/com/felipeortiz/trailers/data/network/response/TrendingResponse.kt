@@ -49,7 +49,7 @@ fun TrendingResponse.toDatabaseTrendingMoviesArray() : Array<DatabaseTrendingMov
             video = it.video,
             vote_average = it.vote_average,
             vote_count = it.vote_count
-            )
+        )
     }.toTypedArray()
 }
 

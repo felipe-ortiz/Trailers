@@ -1,6 +1,7 @@
 package com.felipeortiz.trailers.data.network.response
 
 import com.felipeortiz.trailers.models.Movie
+import com.google.gson.annotations.SerializedName
 
 data class MovieResponse(
     val adult: Boolean,
@@ -8,7 +9,6 @@ data class MovieResponse(
     val belongs_to_collection: Any,
     val budget: Int,
     val genres: List<Genre>,
-    val homepage: String,
     val id: Int,
     val images: Images,
     val imdb_id: String,
@@ -32,11 +32,10 @@ data class MovieResponse(
     val vote_count: Int
 ) {
     fun toModelMovie() : Movie {
-        return Movie(
+            return Movie(
             adult = this.adult,
             backdrop_path = this.backdrop_path,
             budget = this.budget,
-            homepage = this.homepage,
             id = this.id,
             images = this.images,
             imdb_id = this.imdb_id,
@@ -60,10 +59,11 @@ data class MovieResponse(
 }
 
 data class Videos(
-    val results: List<Result>
+    @SerializedName("results")
+    val trailers: List<Trailer>
 )
 
-data class Result(
+data class Trailer(
     val id: String,
     val iso_3166_1: String,
     val iso_639_1: String,
@@ -123,7 +123,7 @@ data class SpokenLanguage(
 
 //fun Videos.toVideoList(videoObj: Videos) : List<Video> {
 //    val videos = arrayListOf<Video>()
-//    videoObj.results.forEach {
+//    videoObj.trailers.forEach {
 //        val vid = Video(
 //            id = it.id,
 //            language = it.iso_3166_1,

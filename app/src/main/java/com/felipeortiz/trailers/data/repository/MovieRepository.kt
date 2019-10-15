@@ -11,6 +11,7 @@ import com.felipeortiz.trailers.models.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
