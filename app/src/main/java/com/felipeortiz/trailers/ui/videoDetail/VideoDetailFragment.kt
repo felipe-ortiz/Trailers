@@ -17,15 +17,18 @@ import kotlinx.android.synthetic.main.fragment_video_detail.*
 import timber.log.Timber
 import android.content.Context
 import android.widget.ImageView
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import com.felipeortiz.trailers.MovieApplication
 import com.felipeortiz.trailers.R
 import com.felipeortiz.trailers.data.network.response.Trailer
 import com.felipeortiz.trailers.di.Injector
+import com.felipeortiz.trailers.internal.doOnApplyWindowInsets
 import com.felipeortiz.trailers.ui.OnItemClickHandler
 import com.felipeortiz.trailers.ui.OnItemLongClickHandler
 import kotlinx.android.synthetic.main.fragment_video_detail.view.*
 import kotlinx.android.synthetic.main.thumbnail_view.view.*
+import kotlinx.android.synthetic.main.trending_fragment.view.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -50,6 +53,11 @@ class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandl
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_video_detail, container, false)
+        view.nested_scroll_view.doOnApplyWindowInsets { scrollView, windowInsets, initialPadding ->
+            scrollView.updatePadding(
+                bottom = initialPadding.bottom + windowInsets.systemWindowInsetBottom
+            )
+        }
 
         recyclerView = view.trailers_recyclerview
         val layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
