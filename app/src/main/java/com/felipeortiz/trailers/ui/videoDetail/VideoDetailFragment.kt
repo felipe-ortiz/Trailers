@@ -1,6 +1,5 @@
 package com.felipeortiz.trailers.ui.videoDetail
 
-import android.app.Application
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,17 +13,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-import com.felipeortiz.trailers.data.network.response.Result
 import kotlinx.android.synthetic.main.fragment_video_detail.*
 import timber.log.Timber
 import android.content.Context
 import android.widget.ImageView
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
+import com.felipeortiz.trailers.MovieApplication
 import com.felipeortiz.trailers.R
+import com.felipeortiz.trailers.data.network.response.Trailer
+import com.felipeortiz.trailers.di.Injector
+import com.felipeortiz.trailers.internal.doOnApplyWindowInsets
 import com.felipeortiz.trailers.ui.OnItemClickHandler
 import com.felipeortiz.trailers.ui.OnItemLongClickHandler
 import kotlinx.android.synthetic.main.fragment_video_detail.view.*
 import kotlinx.android.synthetic.main.thumbnail_view.view.*
+import kotlinx.android.synthetic.main.trending_fragment.view.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -39,16 +43,21 @@ class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandl
 
     private lateinit var viewModelFactory: VideoDetailVideoModelFactory
     private lateinit var viewModel: VideoDetailViewModel
-    private lateinit var application: Application
+    private lateinit var application: MovieApplication
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TrailersAdapter
-    private val trailers = mutableListOf<Result>()
+    private val trailers = mutableListOf<Trailer>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_video_detail, container, false)
+        view.nested_scroll_view.doOnApplyWindowInsets { scrollView, windowInsets, initialPadding ->
+            scrollView.updatePadding(
+                bottom = initialPadding.bottom + windowInsets.systemWindowInsetBottom
+            )
+        }
 
         recyclerView = view.trailers_recyclerview
         val layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
@@ -72,13 +81,13 @@ class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandl
                 val imageUrl = POSTER_PATH_BASE_URL + it.poster_path
                 Glide.with(this).load(imageUrl).into(poster_image)
 
-                this.adapter.setTrailersMovies(it.videos.results)
+                this.adapter.setTrailersMovies(it.videos.trailers)
 
-                it.videos.results.forEach { video ->
-                    if (video.site == "YouTube") {
-                        trailers.add(video)
+                it.videos.trailers.forEach { trailer ->
+                    if (trailer.site == "YouTube") {
+                        trailers.add(trailer)
                     }
-                    Timber.d("Video name:${video.name}, Key: ${video.key}")
+                    Timber.d("Video name:${trailer.name}, Key: ${trailer.key}")
                 }
             }
         })
@@ -88,10 +97,9 @@ class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        application = requireNotNull(this.activity).application
         arguments?.getInt("movieId")?.let {
             Timber.d("Movie id = $it")
-            viewModelFactory = VideoDetailVideoModelFactory(application, it)
+            viewModelFactory = VideoDetailVideoModelFactory(it, Injector.get().movieRepository())
         }
     }
 
@@ -122,7 +130,7 @@ class TrailersAdapter(private val onItemClickHandler: OnItemClickHandler,
                       private val context: Context) :
         RecyclerView.Adapter<TrailersAdapter.TrailersHolder>() {
 
-    private var trailers = emptyList<Result>()
+    private var trailers = emptyList<Trailer>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrailersHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.thumbnail_view, parent, false)
@@ -137,7 +145,7 @@ class TrailersAdapter(private val onItemClickHandler: OnItemClickHandler,
         Glide.with(context).load(imageUrl).error(R.drawable.ic_play_circle_filled_black_24dp).into(holder.thumbnail)
     }
 
-    fun setTrailersMovies(trailers: List<Result>) {
+    fun setTrailersMovies(trailers: List<Trailer>) {
         this.trailers = trailers
         notifyDataSetChanged()
     }
