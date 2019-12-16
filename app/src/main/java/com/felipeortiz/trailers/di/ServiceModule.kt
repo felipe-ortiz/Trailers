@@ -7,15 +7,16 @@ import dagger.Provides
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
 import javax.inject.Singleton
 
 private const val BASE_URL = "https://api.themoviedb.org/3/"
-private const val API_KEY = "902f0cc9856cfba6f6a98328937c31b7"
+    private const val API_KEY = "902f0cc9856cfba6f6a98328937c31b7"
 
 @Module
 class ServiceModule {
+
 
     private val requestInterceptor = Interceptor { chain ->
 
@@ -36,14 +37,13 @@ class ServiceModule {
         .addInterceptor(requestInterceptor)
         .build()
 
-
     @Provides
     @Singleton
     fun retrofit(): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(BASE_URL)
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
     @Provides

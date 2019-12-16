@@ -21,4 +21,6 @@
     <string name="trailers">Trailers</string>
     <string name="budget_formatted">$%s</string>
     <string name="search_hint">Search movies</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="header">Header</string>
 </resources>

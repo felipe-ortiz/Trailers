@@ -19,21 +19,17 @@ import android.content.Context
 import android.widget.ImageView
 import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
-import com.felipeortiz.trailers.MovieApplication
 import com.felipeortiz.trailers.R
-import com.felipeortiz.trailers.data.network.response.Trailer
 import com.felipeortiz.trailers.di.Injector
 import com.felipeortiz.trailers.internal.doOnApplyWindowInsets
+import com.felipeortiz.trailers.models.Trailer
 import com.felipeortiz.trailers.ui.OnItemClickHandler
 import com.felipeortiz.trailers.ui.OnItemLongClickHandler
 import kotlinx.android.synthetic.main.fragment_video_detail.view.*
 import kotlinx.android.synthetic.main.thumbnail_view.view.*
-import kotlinx.android.synthetic.main.trending_fragment.view.*
 import java.text.NumberFormat
 import java.util.*
 
-
-private const val POSTER_PATH_BASE_URL = "https://image.tmdb.org/t/p/original"
 
 class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandler {
 
@@ -43,7 +39,6 @@ class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandl
 
     private lateinit var viewModelFactory: VideoDetailVideoModelFactory
     private lateinit var viewModel: VideoDetailViewModel
-    private lateinit var application: MovieApplication
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TrailersAdapter
     private val trailers = mutableListOf<Trailer>()
@@ -78,12 +73,14 @@ class VideoDetailFragment : Fragment(), OnItemClickHandler, OnItemLongClickHandl
                 budget_text_view.text = getString(R.string.budget_formatted,
                     NumberFormat.getNumberInstance(Locale.US).format(it.budget))
                 tagline_text_view.text = it.tagline
-                val imageUrl = POSTER_PATH_BASE_URL + it.poster_path
-                Glide.with(this).load(imageUrl).into(poster_image)
+                if (tagline_text_view.text.isEmpty())
+                    tagline_text_view.visibility = View.GONE
+                val imageUrl = "https://image.tmdb.org/t/p/w500" + it.poster_path
+                Glide.with(this).load(imageUrl).placeholder(R.drawable.ic_movies).into(poster_image)
 
-                this.adapter.setTrailersMovies(it.videos.trailers)
+                this.adapter.setTrailersMovies(it.trailers)
 
-                it.videos.trailers.forEach { trailer ->
+                it.trailers.forEach { trailer ->
                     if (trailer.site == "YouTube") {
                         trailers.add(trailer)
                     }

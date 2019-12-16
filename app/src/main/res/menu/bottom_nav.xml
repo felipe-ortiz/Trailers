@@ -5,15 +5,11 @@
         android:icon="@drawable/ic_trending"
         android:title="@string/trending"/>
     <item
-            android:id="@+id/discoverFragment"
-            android:icon="@drawable/ic_trending"
-            android:title="@string/discover"/>
+        android:id="@+id/discoverFragment"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/discover" />
     <item
-            android:id="@+id/searchFragment"
-            android:icon="@drawable/ic_trending"
-            android:title="@string/search"/>
-    <item
-            android:id="@+id/settingsFragment"
-            android:icon="@drawable/ic_trending"
-            android:title="@string/settings"/>
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings_white_24dp"
+        android:title="@string/settings" />
 </menu>

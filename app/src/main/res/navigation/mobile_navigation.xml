@@ -4,17 +4,42 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/mobile_navigation"
             app:startDestination="@id/trendingFragment">
 
-    <fragment android:id="@+id/trendingFragment" android:name="com.felipeortiz.trailers.ui.trending.TrendingFragment"
-              android:label="Trending" tools:layout="@layout/trending_fragment">
-        <action android:id="@+id/action_trendingFragment_to_videoDetailFragment"
-                app:destination="@id/videoDetailFragment" app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    <fragment
+            android:id="@+id/trendingFragment"
+            android:name="com.felipeortiz.trailers.ui.trending.TrendingFragment"
+            android:label="Trending"
+            tools:layout="@layout/fragment_trending">
+        <action
+                android:id="@+id/action_trendingFragment_to_videoDetailFragment"
+                app:destination="@id/videoDetailFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
-    <fragment android:id="@+id/discoverFragment" android:name="com.felipeortiz.trailers.ui.discover.DiscoverFragment"
-              android:label="discover_fragment" tools:layout="@layout/discover_fragment"/>
-    <fragment android:id="@+id/searchFragment" android:name="com.felipeortiz.trailers.ui.search.SearchFragment"
-              android:label="search_fragment" tools:layout="@layout/search_fragment"/>
+    <fragment
+            android:id="@+id/discoverFragment"
+            android:name="com.felipeortiz.trailers.ui.discover.DiscoverFragment"
+            android:label="Discover"
+            tools:layout="@layout/fragment_discover">
+        <action
+                android:id="@+id/discoverToDetail"
+                app:destination="@id/videoDetailFragment" />
+        <action
+                android:id="@+id/action_discoverFragment_to_searchFragment"
+                app:destination="@id/searchFragment"
+                app:popUpTo="@id/discoverFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/searchFragment"
+            android:name="com.felipeortiz.trailers.ui.search.SearchFragment"
+            android:label="Search"
+            tools:layout="@layout/fragment_search">
+        <action
+                android:id="@+id/action_searchFragment_to_videoDetailFragment"
+                app:destination="@id/videoDetailFragment"
+                app:popUpTo="@+id/searchFragment" />
+    </fragment>
     <fragment android:id="@+id/settingsFragment" android:name="com.felipeortiz.trailers.ui.settings.SettingsFragment"
               android:label="SettingsFragment"/>
     <fragment android:id="@+id/videoDetailFragment"

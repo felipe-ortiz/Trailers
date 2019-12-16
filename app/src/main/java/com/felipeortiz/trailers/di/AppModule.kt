@@ -3,11 +3,13 @@ package com.felipeortiz.trailers.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.felipeortiz.trailers.data.db.DiscoverMoviesDao
 import com.felipeortiz.trailers.data.db.MovieDao
 import com.felipeortiz.trailers.data.db.MovieDatabase
 import com.felipeortiz.trailers.data.db.TrendingMoviesDao
 import com.felipeortiz.trailers.data.network.MovieDbService
 import com.felipeortiz.trailers.data.repository.MovieRepository
+import com.felipeortiz.trailers.data.repository.MovieRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -30,7 +32,7 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    fun provideRepository(movieDbService: MovieDbService): MovieRepository = MovieRepository(database, movieDbService)
+    fun provideRepository(movieDbService: MovieDbService): MovieRepository = MovieRepositoryImpl(database, movieDbService, app.applicationContext)
 
     @Provides
     @Singleton
@@ -42,5 +44,11 @@ class AppModule(private val app: Application) {
     @Singleton
     fun provideMovieDao(database: MovieDatabase): MovieDao {
         return database.movieDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDiscoverMovieDao(database: MovieDatabase): DiscoverMoviesDao {
+        return database.discoverMoviesDao()
     }
 }

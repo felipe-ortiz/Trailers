@@ -1,11 +1,29 @@
 package com.felipeortiz.trailers.internal
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.view.View
 import android.view.WindowInsets
 import com.google.android.material.internal.ViewUtils.requestApplyInsetsWhenAttached
 
+class Utility {
+    companion object {
+        fun isOnline(appContext: Context): Boolean {
+            val connectivityManager = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            networkCapabilities?.let {
+                return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) or
+                        networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+            }
+            return false
+        }
+    }
+}
+
 /*
 Author: Chris Banes
+Changes the UI into immersive mode and back
  */
 
 fun View.doOnApplyWindowInsets(f: (View, WindowInsets, InitialPadding) -> Unit ) {

@@ -1,64 +1,73 @@
 package com.felipeortiz.trailers.internal
 
 import androidx.room.TypeConverter
-import com.felipeortiz.trailers.data.network.response.Images
-import com.felipeortiz.trailers.data.network.response.Videos
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import timber.log.Timber
+import com.felipeortiz.trailers.models.Trailer
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 
 class TypeConverters {
 
-    private val gson = Gson()
-
-    @TypeConverter
-    fun jsonToVideos(json: String) : Videos {
-        Timber.d("Testing $json")
-
-        val type = object : TypeToken<Videos>() {}.type
-        return gson.fromJson<Videos>(json, type)
-
-    }
-
-    @TypeConverter
-    fun videosToJson(videos: Videos) : String {
-        val type = object : TypeToken<Videos>() {}.type
-        return gson.toJson(videos, type)
-    }
-
-    @TypeConverter
-    fun jsonToImages(json: String) : Images {
-        val type = object : TypeToken<Images>() {}.type
-        return gson.fromJson<Images>(json, type)
-    }
-
-    @TypeConverter
-    fun imagesToJson(images: Images) : String {
-        val type = object : TypeToken<Images>() {}.type
-        return gson.toJson(images, type)
-    }
-
+//    private val gson = Gson()
+//
 //    @TypeConverter
-//    fun jsonToBackdrops(json: String) : List<Backdrop> {
-//        val type = object : TypeToken<List<Backdrop>>() {}.type
-//        return gson.fromJson<List<Backdrop>>(json, type)
+//    fun jsonToVideos(json: String) : Videos {
+//        Timber.d("Testing $json")
+//
+//        val type = object : TypeToken<Videos>() {}.type
+//        return gson.fromJson<Videos>(json, type)
+//
 //    }
 //
 //    @TypeConverter
-//    fun backdropsToJson(backdrops: List<Backdrop>) : String {
-//        val type = object : TypeToken<List<Backdrop>>() {}.type
-//        return gson.toJson(backdrops, type)
+//    fun videosToJson(videos: Videos) : String {
+//        val type = object : TypeToken<Videos>() {}.type
+//        return gson.toJson(videos, type)
 //    }
 //
 //    @TypeConverter
-//    fun jsonToPosters(json: String) : List<Poster> {
-//        val type = object : TypeToken<List<Poster>>() {}.type
-//        return gson.fromJson(json, type)
+//    fun jsonToImages(json: String) : ImagesResponse {
+//        val type = object : TypeToken<ImagesResponse>() {}.type
+//        return gson.fromJson<ImagesResponse>(json, type)
 //    }
 //
 //    @TypeConverter
-//    fun postersToJson(posters: List<Poster>) : String {
-//        val type = object : TypeToken<List<Poster>>() {}.type
-//        return gson.toJson(posters, type)
+//    fun imagesToJson(imagesResponse: ImagesResponse) : String {
+//        val type = object : TypeToken<ImagesResponse>() {}.type
+//        return gson.toJson(imagesResponse, type)
 //    }
+}
+
+class TypeAdapter {
+    private val moshi = Moshi.Builder().build()
+
+    @TypeConverter
+    fun jsonToTrailers(json: String): List<Trailer> {
+        val type = Types.newParameterizedType(List::class.java, Trailer::class.java)
+        val adapter: JsonAdapter<List<Trailer>> = moshi.adapter(type)
+        val trailers = adapter.fromJson(json)
+        return trailers ?: emptyList()
+    }
+
+    @TypeConverter
+    fun trailersToJson(trailers: List<Trailer>): String {
+        val type = Types.newParameterizedType(List::class.java, Trailer::class.java)
+        val adapter: JsonAdapter<List<Trailer>> = moshi.adapter(type)
+        return adapter.toJson(trailers)
+    }
+
+    @TypeConverter
+    fun jsonToStrings(json: String): List<String> {
+        val type = Types.newParameterizedType(List::class.java, String::class.java)
+        val adapter: JsonAdapter<List<String>> = moshi.adapter(type)
+        val strings = adapter.fromJson(json)
+        return strings ?: emptyList()
+    }
+
+    @TypeConverter
+    fun stringsToJson(strings: List<String>): String {
+        val type = Types.newParameterizedType(List::class.java, String::class.java)
+        val adapter: JsonAdapter<List<String>> = moshi.adapter(type)
+        return adapter.toJson(strings)
+    }
 }

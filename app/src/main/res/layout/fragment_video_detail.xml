@@ -59,7 +59,7 @@
                     app:layout_constraintStart_toEndOf="@+id/poster_image"
                     app:layout_constraintTop_toBottomOf="@+id/tagline_text_view" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/poster_image"
                     android:layout_width="110dp"
                     android:layout_height="160dp"
