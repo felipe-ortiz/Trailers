@@ -7,28 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.view.updatePadding
-import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.felipeortiz.trailers.MovieApplication
 import com.felipeortiz.trailers.R
 import com.felipeortiz.trailers.data.network.response.TrendingMovie
 import com.felipeortiz.trailers.di.Injector
-import com.felipeortiz.trailers.internal.doOnApplyWindowInsets
 import com.google.android.material.textview.MaterialTextView
-import kotlinx.android.synthetic.main.fragment_video_detail.view.*
 import kotlinx.android.synthetic.main.movie_poster_card_view.view.*
-import kotlinx.android.synthetic.main.trending_fragment.view.*
-import kotlinx.android.synthetic.main.trending_list_view.view.*
-
-private const val POSTER_PATH_BASE_URL = "https://image.tmdb.org/t/p/w500"
+import kotlinx.android.synthetic.main.fragment_trending.view.*
 
 class TrendingFragment : Fragment(), OnMovieClickListener {
 
@@ -45,16 +35,11 @@ class TrendingFragment : Fragment(), OnMovieClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.trending_fragment, container, false)
-        view.trendingFragment_frame_layout.doOnApplyWindowInsets { frameView, windowInsets, initialPadding ->
-            frameView.updatePadding(
-                bottom = initialPadding.bottom + windowInsets.systemWindowInsetBottom
-            )
-        }
+        val view = inflater.inflate(R.layout.fragment_trending, container, false)
 
         adapter = TrendingMovieAdapter(requireContext(), this)
         recyclerView = view.recycler_view_trending
-        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = this.adapter
         viewModel.trendingMovies.observe(this, Observer { trendingMovies ->
             trendingMovies?.let {
@@ -77,30 +62,37 @@ class TrendingFragment : Fragment(), OnMovieClickListener {
     }
 }
 
-class TrendingMovieAdapter(private val context: Context, private val onMovieClickHandler: OnMovieClickListener) :
+class TrendingMovieAdapter(private val context: Context,
+                           private val onMovieClickHandler: OnMovieClickListener) :
     RecyclerView.Adapter<TrendingMovieAdapter.TrendingMovieViewHolder>()
 {
     private var trendingMovies = emptyList<TrendingMovie>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingMovieViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_poster_card_view, parent, false) // TODO: Change back if card view doesn't work
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_poster_card_view, parent, false)
         return TrendingMovieViewHolder(view)
     }
 
     override fun getItemCount(): Int = trendingMovies.size
 
     override fun onBindViewHolder(holder: TrendingMovieViewHolder, position: Int) {
-        val imageUrl = POSTER_PATH_BASE_URL + trendingMovies[position].poster_path
+        val imageUrl = "https://image.tmdb.org/t/p/w500${trendingMovies[position].poster_path}"
         Glide.with(context)
             .load(imageUrl)
+            .placeholder(R.drawable.ic_movies)
             .into(holder.posterImageView)
-        holder.titleTextView.text = when {
+        holder.titleTextView.text = getTitleTextView(position)
+    }
+
+    private fun getTitleTextView(position: Int) : String {
+        val title = when {
             trendingMovies[position].title != null -> trendingMovies[position].title
             trendingMovies[position].name != null -> trendingMovies[position].name
             trendingMovies[position].original_name != null -> trendingMovies[position].original_name
             trendingMovies[position].original_title != null -> trendingMovies[position].original_title
             else -> "Unavailable"
         }
-//        holder.rating.text = trendingMovies[position].vote_average.toString()
+
+        return "${position+1}. $title"
     }
 
     internal fun setTrendingMovies(trendingMovies: List<TrendingMovie>) {
@@ -108,9 +100,6 @@ class TrendingMovieAdapter(private val context: Context, private val onMovieClic
         notifyDataSetChanged()
     }
     inner class TrendingMovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
-//        val titleTextView: TextView = itemView.title_trending_text_view
-//        val posterImageView: ImageView = itemView.poster_trending
-//        val rating: TextView = itemView.rating_trending_text_view
         val titleTextView: MaterialTextView = itemView.title_poster_text_view
         val posterImageView: AppCompatImageView = itemView.poster_image_view
 

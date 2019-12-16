@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Widget.Trailers.AppBar" parent="Widget.MaterialComponents.AppBarLayout.Surface">
-        <item name="android:background">?colorSurface</item>
-        <item name="android:textColorPrimary">?colorOnPrimarySurface</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="o_mr1">false</item>
+    <style name="Widget.Trailers.AppBar" parent="Widget.MaterialComponents.AppBarLayout.PrimarySurface">
     </style>
 </resources>

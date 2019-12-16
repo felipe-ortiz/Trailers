@@ -5,37 +5,42 @@ import com.felipeortiz.trailers.data.network.response.*
 
 @Entity(tableName = "movies")
 data class Movie(
-    var adult: Boolean,
-    var backdrop_path: String,
-    var budget: Int,
+    val adult: Boolean,
+    val backdrops: List<String>,
+    val backdrop_path: String,
+    val budget: Int,
+    val genres: List<String>,
     @PrimaryKey(autoGenerate = false)
-    var id: Int,
-    var images: Images,
-    var imdb_id: String,
-    var original_language: String,
-    var original_title: String,
-    var overview: String,
-    var popularity: Double,
-    var poster_path: String,
-    var release_date: String,
-    var revenue: Double,
-    var runtime: Int,
-    var status: String,
-    var tagline: String,
-    var title: String,
-    var video: Boolean,
-    var videos: Videos,
-    var vote_average: Double,
-    var vote_count: Int
+    val id: Int,
+    val imdb_id: String,
+    val original_language: String,
+    val original_title: String,
+    val overview: String,
+    val popularity: Double,
+    val posters: List<String>,
+    val poster_path: String,
+    val productionCompanies: List<String>,
+    val productionCountries: List<String>,
+    val release_date: String,
+    val revenue: Double,
+    val runtime: Int,
+    val spokenLanguages: List<String>,
+    val status: String,
+    val tagline: String,
+    val title: String,
+    val video: Boolean,
+    val trailers: List<Trailer>,
+    val vote_average: Double,
+    val vote_count: Int
 )
 
-//data class Video(
-//    var id: String,
-//    var language: String,
-//    var productionCountry: String,
-//    var key: String,
-//    var name: String,
-//    var site: String,
-//    var size: Int,
-//    var type: String
-//)
+data class Trailer(
+    val id: String,
+    val language: String,
+    val productionCountry: String,
+    val key: String,
+    val name: String,
+    val site: String,
+    val size: Int,
+    val type: String
+)
