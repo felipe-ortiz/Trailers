@@ -1,5 +1,6 @@
 package com.felipeortiz.trailers.ui.search
 
+import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -9,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,9 +25,8 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.Section
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.item_search.view.*
-import timber.log.Timber
 
-class SearchFragment : DialogFragment() {
+class SearchFragment : Fragment() {
 
     // TODO: Change how search works
 
@@ -62,8 +62,6 @@ class SearchFragment : DialogFragment() {
         })
 
         val searchEditText = view.search_bar_edit_text
-        searchEditText.requestFocus()
-//        showKeyboard()
 
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -84,6 +82,12 @@ class SearchFragment : DialogFragment() {
             }
         })
 
+        searchEditText.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                hideKeyboard(this.requireContext(), v)
+            }
+        }
+
         return view
     }
 
@@ -93,19 +97,14 @@ class SearchFragment : DialogFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel::class.java)
     }
 
-    override fun onPause() {
-        super.onPause()
-
-    }
-
     private fun showKeyboard() {
         val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
-    private fun hideKeyboard(view: View) {
-        val inputManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+    private fun hideKeyboard(context: Context, view: View) {
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private inner class SearchItem(private val movieSearchResult: MovieSearchResult,

@@ -17,7 +17,7 @@ import com.felipeortiz.trailers.R
 import com.felipeortiz.trailers.data.network.response.TrendingMovie
 import com.felipeortiz.trailers.di.Injector
 import com.google.android.material.textview.MaterialTextView
-import kotlinx.android.synthetic.main.movie_poster_card_view.view.*
+import kotlinx.android.synthetic.main.item_trending_movie.view.*
 import kotlinx.android.synthetic.main.fragment_trending.view.*
 
 class TrendingFragment : Fragment(), OnMovieClickListener {
@@ -68,7 +68,7 @@ class TrendingMovieAdapter(private val context: Context,
 {
     private var trendingMovies = emptyList<TrendingMovie>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingMovieViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_poster_card_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_trending_movie, parent, false)
         return TrendingMovieViewHolder(view)
     }
 
