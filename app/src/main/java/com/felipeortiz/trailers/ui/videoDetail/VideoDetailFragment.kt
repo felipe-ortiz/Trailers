@@ -26,7 +26,7 @@ import com.felipeortiz.trailers.models.Trailer
 import com.felipeortiz.trailers.ui.OnItemClickHandler
 import com.felipeortiz.trailers.ui.OnItemLongClickHandler
 import kotlinx.android.synthetic.main.fragment_video_detail.view.*
-import kotlinx.android.synthetic.main.thumbnail_view.view.*
+import kotlinx.android.synthetic.main.item_trailer_thumbnail.view.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -130,7 +130,7 @@ class TrailersAdapter(private val onItemClickHandler: OnItemClickHandler,
     private var trailers = emptyList<Trailer>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrailersHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.thumbnail_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_trailer_thumbnail, parent, false)
         return TrailersHolder(view)
     }
 
